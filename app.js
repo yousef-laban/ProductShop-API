@@ -1,17 +1,20 @@
 //
 const express = require("express");
+const cors = require("cors");
 
 //Routes
 const productsRoutes = require("./routes/productsRoutes");
 //Creat App Instence
 const app = express();
-
 app.use(express.json());
+app.use(cors());
+
 //routes
 app.use("/products", productsRoutes);
+app.use("/media", express.static("media"));
 
 const db = require("./db/models");
-// db.sequelize.sync();
+db.sequelize.sync();
 
 // Path not Found Middleware
 app.use((req, res, next) => {

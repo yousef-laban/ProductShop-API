@@ -26,6 +26,10 @@ exports.productsDetails = async (req, res, next) => {
 
 exports.productsCreat = async (req, res, next) => {
   try {
+    if (req.file)
+      req.body.url = `http://${req.get("host")}/media/${req.file.filename}`;
+    // req.body.url = `http://${req.get("host")}/${req.file.path}`; work the same
+
     const newProduct = await Product.create(req.body);
     res.status(201).json(newProduct);
   } catch (error) {
@@ -44,8 +48,10 @@ exports.productsDelete = async (req, res, next) => {
 
 exports.productsUpdate = async (req, res, next) => {
   try {
+    if (req.file)
+      req.body.url = `http://${req.get("host")}/media/${req.file.filename}`;
     await req.product.update(req.body);
-    res.status(204).end();
+    res.status(201).json(req.product);
   } catch (error) {
     next(error);
   }
