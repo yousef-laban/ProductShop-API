@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
 
     slug: {
@@ -29,6 +30,19 @@ module.exports = (sequelize, DataTypes) => {
   SequelizeSlugify.slugifyModel(Product, {
     source: ["name"],
   });
+
+  // relations
+  Product.associate = (models) => {
+    models.Shop.hasMany(Product, {
+      as: "products",
+      foreignKey: "shopId", // change the column name frome ShopId tp shopId
+      allowNull: false,
+    });
+
+    Product.belongsTo(models.Shop, {
+      foreignKey: "shopId",
+    });
+  };
 
   return Product;
 };

@@ -1,5 +1,4 @@
 const express = require("express");
-let products = require("../data");
 const app = express();
 
 const router = express.Router();
@@ -8,7 +7,6 @@ const {
   productsDetails,
   productsList,
   productsDelete,
-  productsCreat,
   productsUpdate,
   fetchProduct,
 } = require("../controllers/productsControllers");
@@ -28,8 +26,6 @@ router.get("/", productsList);
 router.get("/:productId", productsDetails);
 
 router.delete("/:productId", productsDelete);
-
-router.post("/", upload.single("url"), productsCreat);
 
 router.put("/:productId", upload.single("url"), productsUpdate);
 

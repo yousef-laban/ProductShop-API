@@ -24,19 +24,6 @@ exports.productsDetails = async (req, res, next) => {
   res.json(req.product);
 };
 
-exports.productsCreat = async (req, res, next) => {
-  try {
-    if (req.file)
-      req.body.url = `http://${req.get("host")}/media/${req.file.filename}`;
-    // req.body.url = `http://${req.get("host")}/${req.file.path}`; work the same
-
-    const newProduct = await Product.create(req.body);
-    res.status(201).json(newProduct);
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.productsDelete = async (req, res, next) => {
   try {
     await req.product.destroy();
